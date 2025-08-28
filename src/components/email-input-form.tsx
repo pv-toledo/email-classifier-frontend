@@ -91,7 +91,7 @@ export function EmailInputForm({
   };
 
   return (
-    <main className="min-h-screen px-10 flex items-center justify-center lg:px-0">
+    <main className="min-h-screen px-5 flex items-center justify-center lg:px-0">
       <div className="flex mx-auto max-w-2xl w-full">
         <div className="flex flex-col gap-8 w-full animate-in fade-in duration-300 ">
           <div className="flex flex-col gap-5 text-center">
