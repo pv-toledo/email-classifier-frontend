@@ -68,7 +68,7 @@ export function EmailInputForm({
         file.type ===
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     ) {
-      form.setValue("selectedFile", file, {shouldValidate: true});
+      form.setValue("selectedFile", file, { shouldValidate: true });
     } else {
       toast.error("Por favor, selecione um arquivo .csv ou .xlsx válido.");
     }
@@ -91,19 +91,19 @@ export function EmailInputForm({
   };
 
   return (
-    <div className="min-h-screen px-10 flex items-center justify-center lg:px-0">
+    <main className="min-h-screen px-10 flex items-center justify-center lg:px-0">
       <div className="flex mx-auto max-w-2xl w-full">
-        <div className="space-y-8 animate-in fade-in duration-300 w-full">
-          <div className="text-center space-y-4">
-            <h1 className="text-3xl font-bold tracking-tight">
+        <div className="flex flex-col gap-8 w-full animate-in fade-in duration-300 ">
+          <div className="flex flex-col gap-5 text-center">
+            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
               Analisador Inteligente de Emails
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground lg:text-lg">
               Classifique seus emails e gere respostas automáticas com IA.
             </p>
           </div>
           <Card>
-            <CardContent className="p-5">
+            <CardContent>
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onFormSubmit)}
@@ -114,113 +114,115 @@ export function EmailInputForm({
                     onValueChange={(value) =>
                       form.setValue("activeTab", value as "text" | "file")
                     }
-                    className="space-y-5"
+                    className="space-y-8"
                   >
                     <TabsList className="grid w-full grid-cols-2">
                       <TabsTrigger value="text">Email único</TabsTrigger>
                       <TabsTrigger value="file">Arquivo em Lote</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="text">
-                      <FormField
-                        control={form.control}
-                        name="emailText"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Textarea
-                                placeholder="Cole aqui o conteúdo de um e-mail..."
-                                className="min-h-[200px] resize-none"
-                                disabled={isPending}
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </TabsContent>
-                    <TabsContent value="file">
-                      <FormField
-                        control={form.control}
-                        name="selectedFile"
-                        render={({ field }) => (
-                          <FormItem>
-                            {!field.value ? (
+                    <div className="h-60">
+                      <TabsContent value="text">
+                        <FormField
+                          control={form.control}
+                          name="emailText"
+                          render={({ field }) => (
+                            <FormItem>
                               <FormControl>
-                                <Label
-                                  htmlFor="file-upload"
-                                  className="border-2 border-dashed border-border rounded-lg p-8 text-center space-y-4 hover:border-primary/50 transition-colors cursor-pointer block"
-                                >
-                                  <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-                                  <p className="text-lg font-medium">
-                                    Clique aqui para selecionar um arquivo
-                                  </p>
-                                  <p className="text-sm text-muted-foreground">
-                                    Arquivos .csv ou .xlsx
-                                  </p>
-                                  <Input
-                                    type="file"
-                                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                    onChange={handleFileChange}
-                                    className="hidden"
-                                    id="file-upload"
-                                    disabled={isPending}
-                                  />
-                                </Label>
+                                <Textarea
+                                  placeholder="Cole aqui o conteúdo de um e-mail..."
+                                  className="h-60 resize-none"
+                                  disabled={isPending}
+                                  {...field}
+                                />
                               </FormControl>
-                            ) : (
-                              <div className="border-2 border-solid border-primary/20 rounded-lg p-5 bg-primary/5">
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center space-x-4">
-                                    <div className="p-3 bg-primary/10 rounded-lg">
-                                      <FileText className="h-8 w-8 text-primary" />
-                                    </div>
-                                    <div>
-                                      <p className="font-medium text-foreground">
-                                        {field.value.name}
-                                      </p>
-                                      <p className="text-sm text-muted-foreground">
-                                        {(field.value.size / 1024).toFixed(1)}{" "}
-                                        KB •{" "}
-                                        {field.value.type.includes("csv")
-                                          ? "CSV"
-                                          : "Excel"}
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={handleClearFile}
-                                    className="text-muted-foreground hover:text-destructive"
-                                    disabled={isPending}
-                                  >
-                                    <X className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                                <div className="mt-4 pt-4 border-t border-border/50">
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </TabsContent>
+                      <TabsContent value="file">
+                        <FormField
+                          control={form.control}
+                          name="selectedFile"
+                          render={({ field }) => (
+                            <FormItem>
+                              {!field.value ? (
+                                <FormControl>
                                   <Label
-                                    htmlFor="file-upload-replace"
-                                    className="text-sm text-primary hover:text-primary/80 cursor-pointer underline"
+                                    htmlFor="file-upload"
+                                    className="flex flex-col gap-4 h-60 p-8 text-center border-2 border-dashed rounded-lg hover:border-primary/50 hover:cursor-pointer"
                                   >
-                                    Trocar arquivo
+                                    <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                                    <p className="text-lg font-medium">
+                                      Clique aqui para selecionar um arquivo
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                      Arquivos .csv ou .xlsx
+                                    </p>
+                                    <Input
+                                      type="file"
+                                      accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                      onChange={handleFileChange}
+                                      className="hidden"
+                                      id="file-upload"
+                                      disabled={isPending}
+                                    />
                                   </Label>
-                                  <Input
-                                    type="file"
-                                    accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                    onChange={handleFileChange}
-                                    className="hidden"
-                                    id="file-upload-replace"
-                                    disabled={isPending}
-                                  />
+                                </FormControl>
+                              ) : (
+                                <div className="flex flex-col justify-between h-60 border-2 border-solid border-primary/20 rounded-lg p-5 bg-primary/5">
+                                  <div className="flex items-center justify-between pb-3 border-b border-gray-300">
+                                    <div className="flex items-center gap-4">
+                                      <div className="p-3 bg-primary/10 rounded-lg">
+                                        <FileText className="h-8 w-8 text-primary" />
+                                      </div>
+                                      <div>
+                                        <p className="font-medium text-foreground">
+                                          {field.value.name}
+                                        </p>
+                                        <p className="text-sm text-muted-foreground">
+                                          {(field.value.size / 1024).toFixed(1)}{" "}
+                                          KB •{" "}
+                                          {field.value.type.includes("csv")
+                                            ? "CSV"
+                                            : "Excel"}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={handleClearFile}
+                                      className="text-muted-foreground cursor-pointer hover:text-destructive"
+                                      disabled={isPending}
+                                    >
+                                      <X className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                  <div className="mt-4 pt-4">
+                                    <Label
+                                      htmlFor="file-upload-replace"
+                                      className="text-sm font-medium text-black cursor-pointer underline"
+                                    >
+                                      Trocar arquivo
+                                    </Label>
+                                    <Input
+                                      type="file"
+                                      accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                      onChange={handleFileChange}
+                                      className="hidden"
+                                      id="file-upload-replace"
+                                      disabled={isPending}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </TabsContent>
+                              )}
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </TabsContent>
+                    </div>
                   </Tabs>
                   {error && (
                     <Alert variant="destructive" className="mt-4">
@@ -235,7 +237,7 @@ export function EmailInputForm({
                   <Button
                     type="submit"
                     disabled={!form.formState.isValid || isPending}
-                    className="w-full"
+                    className="w-full cursor-pointer"
                     size="lg"
                   >
                     {isPending ? (
@@ -253,6 +255,6 @@ export function EmailInputForm({
           </Card>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
