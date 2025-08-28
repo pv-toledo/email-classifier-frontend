@@ -1,7 +1,28 @@
-export default function Home() {
+"use client";
+
+import { useMutation } from "@tanstack/react-query";
+
+import { analyzeEmail } from "@/lib/api";
+import { ResultsDisplay } from "@/components/results-display";
+import { EmailInputForm } from "@/components/email-input-form";
+
+export default function HomePage() {
+  const {
+    mutate,
+    data: results,
+    isPending,
+    isSuccess, 
+    error, 
+    reset, 
+  } = useMutation({
+    mutationFn: analyzeEmail,
+  });
+
+  if (isSuccess && results) {
+    return <ResultsDisplay results={results} onReset={reset} />;
+  }
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      
-    </div>
+    <EmailInputForm onSubmit={mutate} isPending={isPending} error={error} />
   );
 }
